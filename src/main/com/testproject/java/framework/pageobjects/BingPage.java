@@ -11,26 +11,26 @@ import static com.codeborne.selenide.Selenide.page;
 
 public class BingPage 
 {
-    @FindBy(how = How.ID, using = "sb_form_q")
-    public SelenideElement searchBox;
+  @FindBy(how = How.ID, using = "sb_form_q")
+  public SelenideElement searchBox;
 
-    @FindBy(how = How.ID, using = "sb_form_go")
-    public SelenideElement searchButton;
+  @FindBy(how = How.ID, using = "sb_form_go")
+  public SelenideElement searchButton;
+
+  public BingPage waitForScreenToLoad()
+  {
+    this.searchBox.shouldBe(Condition.visible);
+    this.searchButton.shouldBe(Condition.visible);
+
+    return this;
+  }
+
+  public BingResultsPage performSearch(String q) throws Exception
+  {
+    this.waitForScreenToLoad();
+    this.searchBox.setValue(q);
+    $(By.xpath("//li[@query = '" + q + "']/div")).click();
     
-    public BingPage waitForScreenToLoad()
-    {
-    	this.searchBox.shouldBe(Condition.visible);
-    	this.searchButton.shouldBe(Condition.visible);
-
-        return this;
-    }
-
-    public BingResultsPage performSearch(String q) throws Exception
-    {
-        this.waitForScreenToLoad();
-        this.searchBox.setValue(q);
-        $(By.xpath("//li[@query = '" + q + "']/div")).click();
-        
-        return page(BingResultsPage.class);
-    }
+    return page(BingResultsPage.class);
+  }
 }
