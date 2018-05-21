@@ -6,4 +6,5 @@ DevOps may choose different settings:
 - Choose which web browser to host the test site
 - Choose which tests to run
 - Choose how to handle the test's outcome
+
 All of the above with just a single java package.
