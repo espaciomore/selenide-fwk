@@ -5,6 +5,7 @@ Unlike Selenide, this is an automation framework to be used by QA Automation Dev
 DevOps may choose different settings:
 - Choose which web browser to host the test site
 - Choose which tests to run
-- Choose how to handle the test's outcome
+- Choose how to handle the test outcome
+- Choose between serial or parallel test run
 
 All of the above with just a single java package.
