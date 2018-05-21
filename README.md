@@ -1,5 +1,5 @@
 # Enhanced Selenide Framework
-Unlike Selenide, this is an automation framework to be used by QA Automation Developers to script the test scenario then deliver it to the DevOps team in order to integrate the tests into the continious delivery pipeline.
+Unlike Selenide, this is an automation framework to be used by QA Automation Developers to script the test scenario then deliver it to the DevOps team in order to integrate the tests into the continuous delivery pipeline.
 
 ## How It Works
 DevOps may choose different settings:
