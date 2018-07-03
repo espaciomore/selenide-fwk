@@ -33,7 +33,7 @@ public final class AutoConfig
 	private static String lastFileUri;
 	
 	/** The last json object. */
-	private static JsonObject lastJsonObject;
+	private static JsonElement lastJsonElement;
 	
 	/**
 	 * Gets the.
@@ -43,18 +43,17 @@ public final class AutoConfig
 	 * @throws FileNotFoundException the file not found exception
 	 * @throws Exception the exception
 	 */
-	public static JsonObject get(String p_fileUri) throws FileNotFoundException, Exception
+	public static JsonElement get(String p_fileUri) throws FileNotFoundException, Exception
 	{
 		if (p_fileUri.equals(lastFileUri)) {
-			return lastJsonObject;
+			return lastJsonElement;
 		}
 		
 		final JsonParser v_parser = new JsonParser();
-		final JsonElement v_config = v_parser.parse(new FileReader(p_fileUri));
-		final JsonObject v_json = v_config.getAsJsonObject();
+		final JsonElement v_json = v_parser.parse(new FileReader(p_fileUri));
 		
 		lastFileUri = p_fileUri;
-		lastJsonObject = v_json;
+		lastJsonElement = v_json;
 		
 		return v_json; 
 	}
@@ -70,12 +69,18 @@ public final class AutoConfig
 	 */
 	public static JsonElement get(String p_fileUri, String p_locator) throws FileNotFoundException, Exception
 	{
-		JsonObject v_json = get(p_fileUri);
+		JsonElement v_json = get(p_fileUri);
 
+		if(!v_json.isJsonObject()){
+		    return v_json;
+		}
+		
+		if(p_locator.isEmpty()){
+		    return v_json;	
+		}
+		
 		String[] v_arrayPath = p_locator.split("\\.");
 		int v_len = v_arrayPath.length;
-		
-		JsonElement v_jsonElment = JsonNull.INSTANCE;
 		
 		for(int i=0; i<v_len; i++) { 
 			String key = v_arrayPath[i];
@@ -88,8 +93,7 @@ public final class AutoConfig
 			JsonElement this_je = v_json.get(key);	
 			// get json element by index for a json array
 			if(this_je.isJsonArray() && index >= 0){
-				v_jsonElment = this_je.getAsJsonArray().get(index);
-				this_je = v_jsonElment;
+				this_je = this_je.getAsJsonArray().get(index);
 			}
 			
 			if(this_je.isJsonArray()){
@@ -97,7 +101,7 @@ public final class AutoConfig
 			} else if(this_je.isJsonNull()){
 				return this_je;
 			} else if(this_je.isJsonObject()) {
-				v_json = this_je.getAsJsonObject();
+				v_json = this_je;
 				if(i == (v_len - 1)){
 				    return this_je;	
 				} else {
