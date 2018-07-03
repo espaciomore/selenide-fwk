@@ -98,7 +98,11 @@ public final class AutoConfig
 				return this_je;
 			} else if(this_je.isJsonObject()) {
 				v_json = this_je.getAsJsonObject();
-				continue;
+				if(i == (v_len - 1)){
+				    return this_je;	
+				} else {
+				    continue;
+				}
 			} else if(this_je.isJsonPrimitive()){
 				return this_je;
 			} else {
